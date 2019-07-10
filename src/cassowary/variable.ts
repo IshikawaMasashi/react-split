@@ -6,7 +6,7 @@
 | The full license is in the file COPYING.txt, distributed with this software.
 |----------------------------------------------------------------------------*/
 
-import { Expression } from "./expression";
+import { Expression } from './expression';
 
 /**
  * The primary user constraint variable.
@@ -15,7 +15,7 @@ import { Expression } from "./expression";
  * @param {String} [name=""] The name to associated with the variable.
  */
 export class Variable {
-  constructor(name: string = "") {
+  constructor(name: string = '') {
     this._name = name;
   }
 
@@ -99,7 +99,7 @@ export class Variable {
   public minus(value: number | Variable | Expression): Expression {
     return new Expression(
       this,
-      typeof value === "number" ? -value : [-1, value]
+      typeof value === 'number' ? -value : [-1, value]
     );
   }
 
@@ -135,7 +135,7 @@ export class Variable {
   }
 
   public toString(): string {
-    return this._context + "[" + this._name + ":" + this._value + "]";
+    return this._context + '[' + this._name + ':' + this._value + ']';
   }
 
   private _name: string;

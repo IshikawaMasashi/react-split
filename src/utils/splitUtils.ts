@@ -22,14 +22,14 @@
 // import { SplitInfo } from "../components/Split";
 
 export function toCSSPx(x: number) {
-    return (x | 0) + "px";
+  return (x | 0) + 'px';
 }
 
 export function assignObject(to: any, from: any) {
-    for (const x in from) {
-        if (!(x in to)) {
-            to[x] = from[x];
-        }
+  for (const x in from) {
+    if (!(x in to)) {
+      to[x] = from[x];
     }
-    return to;
+  }
+  return to;
 }

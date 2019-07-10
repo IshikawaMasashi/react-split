@@ -64,7 +64,7 @@ function Example1({ title }: Props) {
 
   return (
     <div className={classes.root}>
-      <div style={{ width: "calc(100% - 50px)" }}>
+      <div style={{ width: "100%" }}>
         <Split
           orientation={SplitOrientation.Vertical}
           splits={splits.slice()}
@@ -74,26 +74,10 @@ function Example1({ title }: Props) {
             // layout();
           }}
         >
-          <div>test1</div>
+          <div  style={{ height: "200px" }}>test1</div>
           <div>test2</div>
         </Split>
       </div>
-      <Grid container spacing={2}>
-        <Grid item></Grid>
-        <Grid item>
-          <Typography variant="h6" noWrap>
-            Item height:
-          </Typography>
-        </Grid>
-        <Grid item xs>
-          <Slider
-            value={itemSize}
-            onChange={handleChange}
-            aria-labelledby="continuous-slider"
-          />
-        </Grid>
-        <Grid item></Grid>
-      </Grid>
     </div>
   );
 }

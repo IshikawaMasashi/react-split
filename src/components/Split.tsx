@@ -1,11 +1,11 @@
-import * as React from "react";
-import { MouseEvent } from "react";
+import * as React from 'react';
+import { MouseEvent } from 'react';
 // import { EventDispatcher } from "../../models";
-import { assert, layout } from "../utils/util";
-import { toCSSPx } from "../utils/splitUtils";
-import { Solver, Variable, Strength, Constraint, Operator } from "../cassowary";
-import { SplitPane } from "./SplitPane";
-import { Resizer } from "./Resizer";
+import { assert, layout } from '../utils/util';
+import { toCSSPx } from '../utils/splitUtils';
+import { Solver, Variable, Strength, Constraint, Operator } from '../cassowary';
+import { SplitPane } from './SplitPane';
+import { Resizer } from './Resizer';
 
 const { useState, useEffect, useRef } = React;
 export enum SplitOrientation {
@@ -17,7 +17,7 @@ export interface SplitInfo {
   min?: number;
   max?: number;
   value?: number;
-  resize?: "fixed" | "stretch";
+  resize?: 'fixed' | 'stretch';
 }
 
 type Props = {
@@ -49,8 +49,8 @@ export const Split: React.FC<Props> = props => {
   const forceUpdate = useForceUpdate();
 
   useEffect(() => {
-    document.addEventListener("mousemove", onResizerMouseMove as any);
-    document.addEventListener("mouseup", onResizerMouseUp);
+    document.addEventListener('mousemove', onResizerMouseMove as any);
+    document.addEventListener('mouseup', onResizerMouseUp);
     const newSplits = canonicalizeSplits(props);
     setupSolver(newSplits, getContainerSize(props.orientation));
     querySolver(newSplits);
@@ -59,8 +59,8 @@ export const Split: React.FC<Props> = props => {
     props.onChange && props.onChange(newSplits);
 
     return () => {
-      document.removeEventListener("mousemove", onResizerMouseMove as any);
-      document.removeEventListener("mouseup", onResizerMouseUp);
+      document.removeEventListener('mousemove', onResizerMouseMove as any);
+      document.removeEventListener('mouseup', onResizerMouseUp);
     };
   }, []);
 
@@ -83,7 +83,7 @@ export const Split: React.FC<Props> = props => {
     solver.removeEditVariable(varilable);
     solver.addEditVariable(varilable, Strength.medium);
     // Split.onResizeBegin.dispatch(this);
-    window.document.documentElement.style.pointerEvents = "none";
+    window.document.documentElement.style.pointerEvents = 'none';
   };
 
   /**
@@ -95,7 +95,7 @@ export const Split: React.FC<Props> = props => {
     }
     indexRef.current = -1;
     // Split.onResizeEnd.dispatch(this);
-    window.document.documentElement.style.pointerEvents = "auto";
+    window.document.documentElement.style.pointerEvents = 'auto';
     const newSplits = splitsRef.current.slice();
     querySolver(newSplits);
     return props.onChange && props.onChange(newSplits);
@@ -168,7 +168,7 @@ export const Split: React.FC<Props> = props => {
    * Initializes a Cassowary solver and the constraints based on split infos and container size.
    */
   const setupSolver = (splits: SplitInfo[], containerSize: number) => {
-    assert(indexRef.current < 0, "Should not be in a dragging state.");
+    assert(indexRef.current < 0, 'Should not be in a dragging state.');
     //const weak = Cassowary.Strength.weak;
     //// const medium = Cassowary.Strength.medium;
     //const strong = Cassowary.Strength.strong;
@@ -280,7 +280,7 @@ export const Split: React.FC<Props> = props => {
     <div
       className="split"
       ref={containerRef}
-      style={{ flexDirection: isHorizontal ? "column" : "row" }}
+      style={{ flexDirection: isHorizontal ? 'column' : 'row' }}
     >
       {children}
     </div>

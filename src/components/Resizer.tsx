@@ -1,8 +1,8 @@
-import * as React from "react";
+import * as React from 'react';
 
-import { SplitOrientation } from "./Split";
+import { SplitOrientation } from './Split';
 
-const {  useEffect } = React;
+const { useEffect } = React;
 
 type Props = {
   orientation: SplitOrientation;
@@ -14,12 +14,12 @@ export const Resizer: React.FC<Props> = ({ orientation, onMouseDown }) => {
     return () => {};
   }, []);
 
-  let resizerClassName = "resizer";
+  let resizerClassName = 'resizer';
   const isHorizontal = orientation === SplitOrientation.Horizontal;
   if (isHorizontal) {
-    resizerClassName += " horizontal";
+    resizerClassName += ' horizontal';
   } else {
-    resizerClassName += " vertical";
+    resizerClassName += ' vertical';
   }
 
   return <div className={resizerClassName} onMouseDown={onMouseDown} />;

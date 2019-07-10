@@ -26,6 +26,8 @@ import Example3 from "./Example3";
 import Example4 from "./Example4";
 import Example5 from "./Example5";
 
+const { useState } = React;
+
 enum View {
   Example1,
   Example2
@@ -70,15 +72,11 @@ const useStyles = makeStyles(theme => ({
 
 type Props = {};
 export default function ResponsiveDrawer(props: Props) {
-  const basicSetup = [
-    "Elements of equal height",
-    "Variable heights",
-    "Horizontal list"
-  ];
+  const basicUsage = ["Basic Horizontal", "Basic Vertical", "Horizontal list"];
 
-  const controlledProps = ["Scroll to index", "Controlled scroll offset"];
+  const advancedUsage = ["Multiple Panes Vertical", "Controlled scroll offset"];
 
-  const labels = basicSetup.concat(controlledProps);
+  const labels = basicUsage.concat(advancedUsage);
 
   const examples = [
     <Example1 />,
@@ -91,15 +89,14 @@ export default function ResponsiveDrawer(props: Props) {
   // const { container } = props;
   const classes = useStyles({});
   const theme = useTheme();
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
-  const [view, setView] = React.useState(View.Example1);
+  const [view, setView] = useState(View.Example1);
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
   function handleDrawerToggle() {
     setMobileOpen(!mobileOpen);
   }
-
-  const [selectedIndex, setSelectedIndex] = React.useState(0);
 
   function handleListItemClick(
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
@@ -113,7 +110,7 @@ export default function ResponsiveDrawer(props: Props) {
       <div className={classes.toolbar}>
         <div className={classes.title}>
           <Typography variant="h6" noWrap>
-            React Virtual List
+            React Split
           </Typography>
         </div>
       </div>
@@ -121,10 +118,10 @@ export default function ResponsiveDrawer(props: Props) {
       <List>
         <ListSubheader>
           <Typography variant="h6" noWrap>
-            Basic setup
+            Basic Usage
           </Typography>
         </ListSubheader>
-        {basicSetup.map((text, index) => (
+        {basicUsage.map((text, index) => (
           <ListItem
             button
             key={text}
@@ -139,16 +136,16 @@ export default function ResponsiveDrawer(props: Props) {
       <List>
         <ListSubheader>
           <Typography variant="h6" noWrap>
-            Controlled props
+            Advanced Usage
           </Typography>
         </ListSubheader>
-        {controlledProps.map((text, index) => (
+        {advancedUsage.map((text, index) => (
           <ListItem
             button
             key={text}
-            selected={selectedIndex === index + basicSetup.length}
+            selected={selectedIndex === index + basicUsage.length}
             onClick={event =>
-              handleListItemClick(event, index + basicSetup.length)
+              handleListItemClick(event, index + basicUsage.length)
             }
           >
             <ListItemText primary={text} />

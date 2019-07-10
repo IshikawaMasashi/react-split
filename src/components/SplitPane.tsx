@@ -1,6 +1,6 @@
-import * as React from "react";
+import * as React from 'react';
 
-const { useState, useEffect } = React;
+// const { useState, useEffect } = React;
 
 type Props = {
   child: React.ReactNode;
@@ -15,7 +15,7 @@ export const SplitPane: React.FC<Props> = ({ style, child }) => {
   // }, []);
 
   return (
-    <div className={"split-pane"} style={style}>
+    <div className={'split-pane'} style={style}>
       {child}
     </div>
   );
