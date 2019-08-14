@@ -1,9 +1,19 @@
 import * as React from 'react';
 import { MouseEvent } from 'react';
 // import { EventDispatcher } from "../../models";
-import { assert, layout } from '../utils/util';
-import { toCSSPx } from '../utils/splitUtils';
-import { Solver, Variable, Strength, Constraint, Operator } from '../cassowary';
+// import { assert, layout } from "../utils/util";
+
+import assert from '../utils/assert';
+import layout from '../utils/layout';
+
+import toCSSPx from '../utils/toCSSPx';
+import {
+  Solver,
+  Variable,
+  Strength,
+  Constraint,
+  Operator
+} from '@ishikawa_masashi/cassowary';
 import { SplitPane } from './SplitPane';
 import { Resizer } from './Resizer';
 

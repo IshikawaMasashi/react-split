@@ -79,6 +79,7 @@
     "react-dom": ">=16.8.6"
   },
   "dependencies": {
+    "@ishikawa_masashi/cassowary": "^1.0.3",
     "classnames": "^2.2.6",
     "npm-check-updates": "^3.1.17",
     "prop-types": "^15.7.2"
