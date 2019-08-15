@@ -4,10 +4,8 @@ import Grid from "@material-ui/core/Grid";
 import Slider from "@material-ui/lab/Slider";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
-// import { VirtualList, ItemStyle } from "../../src";
 import VolumeDown from "@material-ui/icons/VolumeDown";
 import VolumeUp from "@material-ui/icons/VolumeUp";
-// import { DIRECTION } from "../../src/components/constants";
 
 const { useEffect, useRef } = React;
 
@@ -43,24 +41,7 @@ function Example3({ title }: Props) {
     setItemSize(newValue < 18 ? 18 : newValue);
   };
 
-  // const renderItem = ({
-  //   style,
-  //   index
-  // }: {
-  //   style: ItemStyle;
-  //   index: number;
-  // }) => {
-  //   return (
-  //     <div className="Row" style={style} key={index}>
-  //       Row #{index}
-  //     </div>
-  //   );
-  // };
-
-  return (
-    <div className={classes.root}>
-    </div>
-  );
+  return <div className={classes.root}></div>;
 }
 
 export default Example3;

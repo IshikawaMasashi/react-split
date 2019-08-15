@@ -32,8 +32,8 @@ main {
   margin: auto;
 }
 
-.boxes-container{
-    display: flex;
+.boxes-container {
+  display: flex;
 }
 
 .box {
@@ -43,4 +43,31 @@ main {
   height: 200px;
   color: white;
   text-align: center;
+}
+
+.pane1 {
+  background-color: red;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+}
+
+.pane2 {
+  background-color: green;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+}
+
+.pane3 {
+  background-color: blue;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
 }

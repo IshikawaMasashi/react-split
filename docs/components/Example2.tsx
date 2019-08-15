@@ -4,7 +4,6 @@ import Grid from "@material-ui/core/Grid";
 import Slider from "@material-ui/lab/Slider";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
-// import { VirtualList, ItemStyle } from "../../src";
 import VolumeDown from "@material-ui/icons/VolumeDown";
 import VolumeUp from "@material-ui/icons/VolumeUp";
 import Button from "@material-ui/core/Button";
@@ -60,20 +59,6 @@ function Example2({ title }: Props) {
   function onClick(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     setRowHeights(createRowHeights());
   }
-
-  // const renderItem = ({
-  //   style,
-  //   index
-  // }: {
-  //   style: ItemStyle;
-  //   index: number;
-  // }) => {
-  //   return (
-  //     <div className="Row" style={style} key={index}>
-  //       Row #{index}
-  //     </div>
-  //   );
-  // };
 
   return (
     <div className={classes.root}>

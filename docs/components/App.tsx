@@ -17,16 +17,17 @@ import MailIcon from "@material-ui/icons/Mail";
 import MenuIcon from "@material-ui/icons/Menu";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
+import Link from "@material-ui/core/Link";
+
 // import { VirtualList, ItemStyle } from "../../src";
 import VolumeDown from "@material-ui/icons/VolumeDown";
 import VolumeUp from "@material-ui/icons/VolumeUp";
+import Home from "./Home";
 import Example1 from "./Example1";
 import Example2 from "./Example2";
 import Example3 from "./Example3";
 import Example4 from "./Example4";
 import Example5 from "./Example5";
-
-const { useState } = React;
 
 enum View {
   Example1,
@@ -37,7 +38,8 @@ const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
   root: {
-    display: "flex"
+    display: "flex",
+    backgroundColor: "#fff"
   },
   drawer: {
     [theme.breakpoints.up("sm")]: {
@@ -67,18 +69,26 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
     padding: 16
+  },
+  link: {
+    // margin: theme.spacing(1)
   }
 }));
 
 type Props = {};
 export default function ResponsiveDrawer(props: Props) {
-  const basicUsage = ["Basic Horizontal", "Basic Vertical", "Horizontal list"];
+  const basicSetup = [
+    "Elements of equal height",
+    "Variable heights",
+    "Horizontal list"
+  ];
 
-  const advancedUsage = ["Multiple Panes Vertical", "Controlled scroll offset"];
+  const controlledProps = ["Scroll to index", "Controlled scroll offset"];
 
-  const labels = basicUsage.concat(advancedUsage);
+  const labels = basicSetup.concat(controlledProps);
 
   const examples = [
+    <Home />,
     <Example1 />,
     <Example2 />,
     <Example3 />,
@@ -89,14 +99,15 @@ export default function ResponsiveDrawer(props: Props) {
   // const { container } = props;
   const classes = useStyles({});
   const theme = useTheme();
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = React.useState(false);
 
-  const [view, setView] = useState(View.Example1);
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [view, setView] = React.useState(View.Example1);
 
   function handleDrawerToggle() {
     setMobileOpen(!mobileOpen);
   }
+
+  const [selectedIndex, setSelectedIndex] = React.useState(0);
 
   function handleListItemClick(
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
@@ -110,7 +121,15 @@ export default function ResponsiveDrawer(props: Props) {
       <div className={classes.toolbar}>
         <div className={classes.title}>
           <Typography variant="h6" noWrap>
-            React Split
+            <Link
+              href={"javascript:;"}
+              className={classes.link}
+              onClick={() => {
+                setSelectedIndex(0);
+              }}
+            >
+              React Split
+            </Link>
           </Typography>
         </div>
       </div>
@@ -118,15 +137,15 @@ export default function ResponsiveDrawer(props: Props) {
       <List>
         <ListSubheader>
           <Typography variant="h6" noWrap>
-            Basic Usage
+            Basic setup
           </Typography>
         </ListSubheader>
-        {basicUsage.map((text, index) => (
+        {basicSetup.map((text, index) => (
           <ListItem
             button
             key={text}
-            selected={selectedIndex === index}
-            onClick={event => handleListItemClick(event, index)}
+            selected={selectedIndex === index + 1}
+            onClick={event => handleListItemClick(event, index + 1)}
           >
             <ListItemText primary={text} />
           </ListItem>
@@ -136,16 +155,16 @@ export default function ResponsiveDrawer(props: Props) {
       <List>
         <ListSubheader>
           <Typography variant="h6" noWrap>
-            Advanced Usage
+            Controlled props
           </Typography>
         </ListSubheader>
-        {advancedUsage.map((text, index) => (
+        {controlledProps.map((text, index) => (
           <ListItem
             button
             key={text}
-            selected={selectedIndex === index + basicUsage.length}
+            selected={selectedIndex === 1 + index + basicSetup.length}
             onClick={event =>
-              handleListItemClick(event, index + basicUsage.length)
+              handleListItemClick(event, 1 + index + basicSetup.length)
             }
           >
             <ListItemText primary={text} />
@@ -170,9 +189,6 @@ export default function ResponsiveDrawer(props: Props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" className={classes.title} noWrap>
-            {labels[selectedIndex]}
-          </Typography>
         </Toolbar>
       </AppBar>
       <nav className={classes.drawer} aria-label="Mailbox folders">

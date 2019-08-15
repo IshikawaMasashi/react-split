@@ -4,9 +4,9 @@ import Grid from "@material-ui/core/Grid";
 import Slider from "@material-ui/lab/Slider";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
-import { Split, SplitOrientation, SplitInfo } from "../../src";
 import VolumeDown from "@material-ui/icons/VolumeDown";
 import VolumeUp from "@material-ui/icons/VolumeUp";
+import { Split, SplitOrientation, SplitInfo } from "../../src";
 
 const { useEffect, useRef, useState } = React;
 
@@ -34,10 +34,11 @@ type Props = {
 function Example1({ title }: Props) {
   // ここでクラス名を取得
   const classes = useStyles({});
-  const [itemSize, setItemSize] = useState<number | number[]>(50);
+  const [itemSize, setItemSize] = React.useState<number | number[]>(50);
   const handleChange = (event: any, newValue: number | number[]) => {
     setItemSize(newValue < 18 ? 18 : newValue);
   };
+
   const [splits, setSplits] = useState<SplitInfo[]>([
     {
       min: 300,
@@ -48,22 +49,25 @@ function Example1({ title }: Props) {
       min: 256
     }
   ]);
-  // const renderItem = ({
-  //   style,
-  //   index
-  // }: {
-  //   style: ItemStyle;
-  //   index: number;
-  // }) => {
-  //   return (
-  //     <div className="Row" style={style} key={index}>
-  //       Row #{index}
-  //     </div>
-  //   );
-  // };
 
   return (
     <div className={classes.root}>
+      <Grid container spacing={2}>
+        <Grid item></Grid>
+        <Grid item>
+          <Typography variant="h6" noWrap>
+            Item height:
+          </Typography>
+        </Grid>
+        <Grid item xs>
+          <Slider
+            value={itemSize}
+            onChange={handleChange}
+            aria-labelledby="continuous-slider"
+          />
+        </Grid>
+        <Grid item></Grid>
+      </Grid>
       <div style={{ width: "100%" }}>
         <Split
           orientation={SplitOrientation.Vertical}
@@ -74,7 +78,7 @@ function Example1({ title }: Props) {
             // layout();
           }}
         >
-          <div  style={{ height: "200px" }}>test1</div>
+          <div style={{ height: "200px" }}>test1</div>
           <div>test2</div>
         </Split>
       </div>
