@@ -6,9 +6,9 @@ module.exports = {
   entry: './src/index.ts',
   output: {
     path: __dirname + "/dist",
-    filename: 'ReactContexify.js',
+    filename: 'ReactSplit.js',
     libraryTarget: 'umd',
-    library: 'ReactContexify'
+    library: 'ReactSplit'
   },
   resolve: {
     extensions: [".ts", ".tsx", ".js"]

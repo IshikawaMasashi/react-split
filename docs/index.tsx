@@ -4,6 +4,5 @@ import App from "./components/App";
 
 import "./index.css";
 import "../scss/main.scss";
-import "./demo.css";
 
 render(<App />, document.getElementById("root"));

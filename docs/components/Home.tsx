@@ -9,8 +9,8 @@ import { Split, SplitOrientation, SplitInfo } from "../../src";
 
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 
-// import okaidia from "react-syntax-highlighter/dist/esm/styles/prism/okaidia";
-const styles = require("react-syntax-highlighter/dist/esm/styles/prism");
+import okaidia from "react-syntax-highlighter/dist/esm/styles/prism/okaidia";
+// const styles = require("react-syntax-highlighter/dist/esm/styles/prism");
 
 const { useEffect, useRef, useState } = React;
 
@@ -137,7 +137,7 @@ function Home() {
         <Typography component="p">
           Install React Split source files via npm.
         </Typography>
-        <SyntaxHighlighter language="basic" style={styles.okaidia}>
+        <SyntaxHighlighter language="basic" style={okaidia}>
           {"$ npm install @ishikawa_masashi/react-split"}
         </SyntaxHighlighter>
       </Paper>
@@ -150,7 +150,7 @@ function Home() {
           </Typography>
         </div>
         <Typography component="p"></Typography>
-        <SyntaxHighlighter language="js" style={styles.okaidia}>
+        <SyntaxHighlighter language="jsx" style={okaidia}>
           {`import { Split, SplitOrientation, SplitInfo } from "@ishikawa_masashi/react-split";
 const [splits, setSplits] = useState<SplitInfo[]>([
   {

@@ -14,14 +14,13 @@
     "esModuleInterop": true,
     "noUnusedLocals": true
   },
-  "include": [
-    "./src/**/*"
-  ],
+  "include": ["./src/**/*"],
+
   "exclude": [
     "node_modules",
     "dist",
     "./src/types/**/*",
     "./src/__tests__/**/*",
     "./src/__playground__/**/*"
-    ]
+  ]
 }
