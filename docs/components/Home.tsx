@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useEffect, useRef, useState } from "react";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -11,8 +12,6 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 
 import okaidia from "react-syntax-highlighter/dist/esm/styles/prism/okaidia";
 // const styles = require("react-syntax-highlighter/dist/esm/styles/prism");
-
-const { useEffect, useRef, useState } = React;
 
 // スタイルを定義
 const useStyles = makeStyles((theme: Theme) =>
@@ -92,7 +91,7 @@ function Home() {
         <Grid item xs={12}>
           <div className={classes.container}>
             <Typography variant="h6" noWrap>
-              A tiny but mighty split library, with zero dependencies 💪
+              A tiny but mighty split library, with zero dependencies💪
             </Typography>
           </div>
         </Grid>
