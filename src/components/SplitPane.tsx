@@ -5,10 +5,11 @@ type Props = {
   style: React.CSSProperties;
 };
 
-export const SplitPane: React.FC<Props> = ({ style, child }) => {
+export default function SplitPane(props: Props) {
+  const { style, child } = props;
   return (
     <div className={'split-pane'} style={style}>
       {child}
     </div>
   );
-};
+}

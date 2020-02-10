@@ -1,15 +1,14 @@
 import * as React from 'react';
-
+import { useEffect } from 'react';
 import { SplitOrientation } from './Split';
-
-const { useEffect } = React;
 
 type Props = {
   orientation: SplitOrientation;
   onMouseDown: (event: React.MouseEvent<HTMLDivElement>) => void;
 };
 
-export const Resizer: React.FC<Props> = ({ orientation, onMouseDown }) => {
+export default function Resizer(props: Props) {
+  const { orientation, onMouseDown } = props;
   useEffect(() => {
     return () => {};
   }, []);
@@ -23,4 +22,4 @@ export const Resizer: React.FC<Props> = ({ orientation, onMouseDown }) => {
   }
 
   return <div className={resizerClassName} onMouseDown={onMouseDown} />;
-};
+}

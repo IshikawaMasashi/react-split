@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { MouseEvent } from 'react';
-// import { EventDispatcher } from "../../models";
-// import { assert, layout } from "../utils/util";
+import { useState, useEffect, useRef } from 'react';
 
 import assert from '../utils/assert';
 import layout from '../utils/layout';
@@ -14,10 +13,9 @@ import {
   Constraint,
   Operator
 } from '@ishikawa_masashi/cassowary';
-import { SplitPane } from './SplitPane';
-import { Resizer } from './Resizer';
+import SplitPane from './SplitPane';
+import Resizer from './Resizer';
 
-const { useState, useEffect, useRef } = React;
 export enum SplitOrientation {
   Horizontal,
   Vertical
