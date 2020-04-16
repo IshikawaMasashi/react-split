@@ -1,3 +1,6 @@
-export { Split } from './components/Split';
+import Split from './components/Split';
 export { SplitOrientation } from './components/Split';
+export { default as useSplits } from './hooks/useSplits';
 export { SplitInfo } from './components/Split';
+
+export default Split;

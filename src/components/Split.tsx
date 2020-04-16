@@ -1,11 +1,10 @@
 import * as React from 'react';
-import { MouseEvent } from 'react';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 
 import assert from '../utils/assert';
-import layout from '../utils/layout';
 
 import toCSSPx from '../utils/toCSSPx';
+
 import {
   Solver,
   Variable,
@@ -13,6 +12,9 @@ import {
   Constraint,
   Operator
 } from '@ishikawa_masashi/cassowary';
+
+import { useResizeObserver } from '@ishikawa_masashi/react-hooks';
+
 import SplitPane from './SplitPane';
 import Resizer from './Resizer';
 
@@ -31,24 +33,32 @@ export interface SplitInfo {
 type Props = {
   orientation: SplitOrientation;
   onChange?: (splits: SplitInfo[]) => void;
-  splits?: SplitInfo[];
+  splits: SplitInfo[];
   defaultSplit?: SplitInfo;
   children: React.ReactNode;
   name?: string; // TODO: Remove, for debugging.
 };
 
-// type State = {
-//   splits: SplitInfo[];
-// };
+export default function Split(props: Props) {
+  const {
+    children,
+    orientation,
+    onChange = (splits: SplitInfo[]) => {},
+    defaultSplit
+  } = props;
 
-// const onResizeBegin = new EventDispatcher("Resize Begin");
-// const onResizeEnd = new EventDispatcher("Resize End");
-export const Split: React.FC<Props> = props => {
-  let containerRef = useRef<HTMLDivElement>(null);
-  let indexRef = useRef(-1);
-  let solverRef = useRef<Solver>();
-  let varsRef = useRef<Variable[]>();
-  let splitsRef = useRef<SplitInfo[]>([]);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const indexRef = useRef(-1);
+  const solverRef = useRef<Solver>();
+  const varsRef = useRef<Variable[]>();
+  const splitsRef = useRef<SplitInfo[]>([]);
+
+  const [width, height] = useResizeObserver(containerRef);
+
+  const isHorizontal = useMemo(
+    () => orientation === SplitOrientation.Horizontal,
+    [orientation]
+  );
 
   const useForceUpdate = () => {
     const [, setState] = useState();
@@ -59,12 +69,6 @@ export const Split: React.FC<Props> = props => {
   useEffect(() => {
     document.addEventListener('mousemove', onResizerMouseMove as any);
     document.addEventListener('mouseup', onResizerMouseUp);
-    const newSplits = canonicalizeSplits(props);
-    setupSolver(newSplits, getContainerSize(props.orientation));
-    querySolver(newSplits);
-    splitsRef.current = newSplits;
-    // forceUpdate();
-    props.onChange && props.onChange(newSplits);
 
     return () => {
       document.removeEventListener('mousemove', onResizerMouseMove as any);
@@ -72,14 +76,29 @@ export const Split: React.FC<Props> = props => {
     };
   }, []);
 
+  const onResize = useCallback(() => {
+    if (width && height) {
+      onResizerMouseUp();
+      const newSplits = canonicalizeSplits();
+      setupSolver(newSplits, getContainerSize());
+      querySolver(newSplits);
+      splitsRef.current = newSplits;
+
+      onChange(newSplits);
+    }
+  }, [width, height]);
+
+  useEffect(() => {
+    onResize();
+  }, [width, height]);
+
   useEffect(() => {
     onResizerMouseUp();
-    const splits = canonicalizeSplits(props);
-    setupSolver(splits, getContainerSize(props.orientation));
-    querySolver(splits);
-    splitsRef.current = splits;
+    const newSplits = canonicalizeSplits();
+    setupSolver(newSplits, getContainerSize());
+    querySolver(newSplits);
+    splitsRef.current = newSplits;
     forceUpdate();
-    layout();
   }, [props]);
 
   const onResizerMouseDown = (i: number) => {
@@ -106,10 +125,10 @@ export const Split: React.FC<Props> = props => {
     window.document.documentElement.style.pointerEvents = 'auto';
     const newSplits = splitsRef.current.slice();
     querySolver(newSplits);
-    return props.onChange && props.onChange(newSplits);
+    onChange(newSplits);
   };
 
-  const onResizerMouseMove = (e: MouseEvent<any>) => {
+  const onResizerMouseMove = (e: React.MouseEvent<any>) => {
     if (indexRef.current < 0) {
       return;
     }
@@ -129,6 +148,7 @@ export const Split: React.FC<Props> = props => {
     const newSplits = splitsRef.current.slice();
     querySolver(newSplits);
     forceUpdate();
+    // onChange(newSplits);
     e.preventDefault();
   };
 
@@ -139,24 +159,27 @@ export const Split: React.FC<Props> = props => {
     }
   };
 
-  const getContainerSize = (orientation: SplitOrientation): number => {
-    const container = containerRef.current!;
-    return orientation === SplitOrientation.Horizontal
-      ? container.clientHeight
-      : container.clientWidth;
-  };
+  // const getContainerSize = useCallback(
+  //   (orientation: SplitOrientation) =>
+  //     orientation === SplitOrientation.Horizontal ? height : width,
+  //   [width, height]
+  // );
+  const getContainerSize = useCallback(
+    () => (orientation === SplitOrientation.Horizontal ? height : width),
+    [width, height, orientation]
+  );
 
-  const canonicalizeSplits = (props: Props): SplitInfo[] => {
-    const count = React.Children.count(props.children);
-    const containerSize = getContainerSize(props.orientation);
+  const canonicalizeSplits = useCallback((): SplitInfo[] => {
+    const count = React.Children.count(children);
+    const containerSize = getContainerSize();
     const result = [];
     for (let i = 0; i < count; i++) {
       let info = {};
       if (props.splits && i < props.splits.length) {
         info = Object.assign(info, props.splits[i]);
       }
-      if (props.defaultSplit) {
-        info = Object.assign(props.defaultSplit, info);
+      if (defaultSplit) {
+        info = Object.assign(defaultSplit, info);
       }
 
       result.push(
@@ -170,7 +193,7 @@ export const Split: React.FC<Props> = props => {
       );
     }
     return result;
-  };
+  }, [children, orientation, props.splits, defaultSplit]);
 
   /**
    * Initializes a Cassowary solver and the constraints based on split infos and container size.
@@ -260,37 +283,43 @@ export const Split: React.FC<Props> = props => {
       }
     }
   };
-  const isHorizontal = props.orientation === SplitOrientation.Horizontal;
-  const count = React.Children.count(props.children);
-  const children: React.ReactNode[] = [];
-  React.Children.forEach(props.children, (child, i) => {
-    const style: React.CSSProperties = {};
-    if (i < count - 1 && i < splitsRef.current.length) {
-      style.flexBasis = toCSSPx(
-        Math.round(splitsRef.current[i].value as number)
-      );
-    } else {
-      style.flex = 1;
-    }
 
-    children.push(<SplitPane key={i} style={style} child={child} />);
-    if (i < count - 1) {
-      children.push(
-        <Resizer
-          key={`Resizer-${i}`}
-          orientation={props.orientation}
-          onMouseDown={ev => onResizerMouseDown(i)}
-        />
-      );
-    }
-  });
+  const getChildren = () => {
+    const count = React.Children.count(children);
+    const newChildren: React.ReactNode[] = [];
+    React.Children.forEach(children, (child, i) => {
+      const style: React.CSSProperties = {};
+      if (i < count - 1 && i < splitsRef.current.length) {
+        style.flexBasis = toCSSPx(
+          Math.round(splitsRef.current[i].value as number)
+        );
+      } else {
+        style.flex = 1;
+      }
+
+      newChildren.push(<SplitPane key={i} style={style} child={child} />);
+      if (i < count - 1) {
+        newChildren.push(
+          <Resizer
+            key={`Resizer-${i}`}
+            orientation={orientation}
+            onMouseDown={ev => onResizerMouseDown(i)}
+          />
+        );
+      }
+    });
+    return newChildren;
+  };
+
+  // const splitPanes = useMemo(() => {}, []);
+
   return (
     <div
       className="split"
       ref={containerRef}
       style={{ flexDirection: isHorizontal ? 'column' : 'row' }}
     >
-      {children}
+      {getChildren()}
     </div>
   );
-};
+}

@@ -1,14 +1,12 @@
-import * as React from "react";
-import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import Slider from "@material-ui/core/Slider";
-import Typography from "@material-ui/core/Typography";
-import Paper from "@material-ui/core/Paper";
-import VolumeDown from "@material-ui/icons/VolumeDown";
-import VolumeUp from "@material-ui/icons/VolumeUp";
-import { Split, SplitOrientation, SplitInfo } from "../../src";
-
-const { useEffect, useRef, useState } = React;
+import * as React from 'react';
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import Slider from '@material-ui/core/Slider';
+import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
+import VolumeDown from '@material-ui/icons/VolumeDown';
+import VolumeUp from '@material-ui/icons/VolumeUp';
+import Split, { SplitOrientation, useSplits } from '../../src';
 
 // スタイルを定義
 const useStyles = makeStyles((theme: Theme) =>
@@ -39,7 +37,7 @@ function Example1({ title }: Props) {
     setItemSize(newValue < 18 ? 18 : newValue);
   };
 
-  const [splits, setSplits] = useState<SplitInfo[]>([
+  const [splits, setSplits] = useSplits([
     {
       min: 300,
       max: 600,
@@ -68,17 +66,15 @@ function Example1({ title }: Props) {
         </Grid>
         <Grid item></Grid>
       </Grid>
-      <div style={{ width: "100%" }}>
+      <div style={{ width: '100%' }}>
         <Split
           orientation={SplitOrientation.Vertical}
           splits={splits.slice()}
-          onChange={splits => {
-            // this.setState({ workspaceSplits: splits });
-            setSplits(splits);
-            // layout();
+          onChange={newSplits => {
+            setSplits(newSplits);
           }}
         >
-          <div style={{ height: "200px" }}>test1</div>
+          <div style={{ height: '200px' }}>test1</div>
           <div>test2</div>
         </Split>
       </div>

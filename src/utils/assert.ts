@@ -1,4 +1,4 @@
-export default function assert(c: any, message?: string) {
+export default function assert<T>(c: T, message?: string) {
   if (!c) {
     throw new Error(message);
   }
