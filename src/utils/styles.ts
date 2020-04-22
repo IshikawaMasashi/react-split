@@ -12,7 +12,7 @@ export const styles = {
   itemIcon: 'react-contexify__item__icon',
   theme: 'react-contexify__theme--',
   animationWillEnter: 'react-contexify__will-enter--',
-  animationWillLeave: 'react-contexify__will-leave--'
+  animationWillLeave: 'react-contexify__will-leave--',
 };
 
 // I could use enum instead for both interfaces
@@ -31,12 +31,12 @@ export interface BuiltInAnimation {
 
 export const theme: BuiltInTheme = {
   light: 'light',
-  dark: 'dark'
+  dark: 'dark',
 };
 
 export const animation: BuiltInAnimation = {
   fade: 'fade',
   flip: 'flip',
   pop: 'pop',
-  zoom: 'zoom'
+  zoom: 'zoom',
 };

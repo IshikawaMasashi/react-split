@@ -78,7 +78,7 @@ const x86JumpInstructions = [
   'jpe',
   'jpo',
   'js',
-  'jz'
+  'jz',
 ];
 
 export function isBranch(instr: any) {
@@ -166,7 +166,7 @@ const base64DecodeMap = [
   48,
   49,
   50,
-  51
+  51,
 ];
 
 const base64DecodeMapOffset = 0x2b;

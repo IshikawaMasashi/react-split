@@ -10,7 +10,7 @@ import {
   Variable,
   Strength,
   Constraint,
-  Operator
+  Operator,
 } from '@ishikawa_masashi/cassowary';
 
 import { useResizeObserver } from '@ishikawa_masashi/react-hooks';
@@ -20,7 +20,7 @@ import Resizer from './Resizer';
 
 export enum SplitOrientation {
   Horizontal,
-  Vertical
+  Vertical,
 }
 
 export interface SplitInfo {
@@ -44,7 +44,7 @@ export default function Split(props: Props) {
     children,
     orientation,
     onChange = (splits: SplitInfo[]) => {},
-    defaultSplit
+    defaultSplit,
   } = props;
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -186,7 +186,7 @@ export default function Split(props: Props) {
         Object.assign(
           {
             min: 32,
-            max: containerSize
+            max: containerSize,
           },
           info
         )
@@ -303,7 +303,7 @@ export default function Split(props: Props) {
           <Resizer
             key={`Resizer-${i}`}
             orientation={orientation}
-            onMouseDown={ev => onResizerMouseDown(i)}
+            onMouseDown={(ev) => onResizerMouseDown(i)}
           />
         );
       }
