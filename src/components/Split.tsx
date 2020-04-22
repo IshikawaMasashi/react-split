@@ -13,7 +13,11 @@ import {
   Operator,
 } from '@ishikawa_masashi/cassowary';
 
-import { useResizeObserver } from '@ishikawa_masashi/react-hooks';
+import {
+  useResizeObserver,
+  useMount,
+  useUnmount,
+} from '@ishikawa_masashi/react-hooks';
 
 import SplitPane from './SplitPane';
 import Resizer from './Resizer';
@@ -66,15 +70,15 @@ export default function Split(props: Props) {
   };
   const forceUpdate = useForceUpdate();
 
-  useEffect(() => {
+  useMount(() => {
     document.addEventListener('mousemove', onResizerMouseMove as any);
     document.addEventListener('mouseup', onResizerMouseUp);
+  });
 
-    return () => {
-      document.removeEventListener('mousemove', onResizerMouseMove as any);
-      document.removeEventListener('mouseup', onResizerMouseUp);
-    };
-  }, []);
+  useUnmount(() => {
+    document.removeEventListener('mousemove', onResizerMouseMove as any);
+    document.removeEventListener('mouseup', onResizerMouseUp);
+  });
 
   const onResize = useCallback(() => {
     if (width && height) {
