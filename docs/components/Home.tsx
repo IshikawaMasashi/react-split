@@ -67,15 +67,21 @@ function Home() {
   const sizes = [
     {
       // min: 300,
-      // max: 600,
-      value: 300,
+      value: 100,
+      // max: 600
     },
     {
-      value: 300,
-      // min: 256
+      value: 100,
+      // min: 256,
+      // max: 600
     },
     {
-      value: 300,
+      value: 100,
+      // max: 600
+    },
+    {
+      value: 100,
+      // max: 600
     },
   ];
 
@@ -131,7 +137,10 @@ function Home() {
               Pane2
             </div>
             <div className={'pane3'} style={{ height: '200px' }}>
-              Pane2
+              Pane3
+            </div>
+            <div className={'pane3'} style={{ height: '200px' }}>
+              Pane4
             </div>
           </SplitView>
         </div>

@@ -251,6 +251,7 @@ export default function Split(props: Props) {
       const { min, max } = splits[i];
       const left = vars[i];
       const right = vars[i + 1];
+
       solver.addConstraint(
         new Constraint(right.minus(left), Operator.Ge, min, Strength.strong)
       );

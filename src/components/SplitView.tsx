@@ -11,6 +11,7 @@ type Props = {
 
 export type SplitViewRef = {
   getSizes: () => SplitInfo[];
+  updateAt: (index: number, item: SplitInfo) => void;
 };
 
 const SplitView = forwardRef<SplitViewRef, Props>((props, ref) => {
@@ -26,7 +27,7 @@ const SplitView = forwardRef<SplitViewRef, Props>((props, ref) => {
   // コンポーネントのインスタンスが持つメソッドを宣言
   useImperativeHandle(ref, () => ({
     getSizes() {
-      return sizes;
+      return splits.value;
     },
     updateAt(index: number, item: SplitInfo) {
       splits.updateAt(index, item);
