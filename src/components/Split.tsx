@@ -19,6 +19,8 @@ import {
   useUnmount,
 } from '@ishikawa_masashi/react-hooks';
 
+import { generateUuid } from '@ishikawa_masashi/common';
+
 import SplitPane from './SplitPane';
 import Resizer from './Resizer';
 
@@ -49,6 +51,7 @@ export default function Split(props: Props) {
     orientation,
     onChange = (splits: SplitInfo[]) => {},
     defaultSplit,
+    splits,
   } = props;
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -156,10 +159,10 @@ export default function Split(props: Props) {
     e.preventDefault();
   };
 
-  const querySolver = (splits: SplitInfo[]) => {
+  const querySolver = (newSplits: SplitInfo[]) => {
     const vars = varsRef.current!;
-    for (let i = 0; i < splits.length; i++) {
-      splits[i].value = vars[i + 1].value() - vars[i].value();
+    for (let i = 0; i < newSplits.length; i++) {
+      newSplits[i].value = vars[i + 1].value() - vars[i].value();
     }
   };
 
@@ -179,8 +182,8 @@ export default function Split(props: Props) {
     const result = [];
     for (let i = 0; i < count; i++) {
       let info = {};
-      if (props.splits && i < props.splits.length) {
-        info = Object.assign(info, props.splits[i]);
+      if (splits && i < splits.length) {
+        info = Object.assign(info, splits[i]);
       }
       if (defaultSplit) {
         info = Object.assign(defaultSplit, info);
@@ -197,7 +200,7 @@ export default function Split(props: Props) {
       );
     }
     return result;
-  }, [children, orientation, props.splits, defaultSplit]);
+  }, [children, orientation, splits, defaultSplit]);
 
   /**
    * Initializes a Cassowary solver and the constraints based on split infos and container size.
@@ -265,24 +268,24 @@ export default function Split(props: Props) {
     for (let i = 1; i < vars.length - 1; i++) {
       // solver.addStay(vars[i], weak);
       solver.addEditVariable(vars[i], Strength.weak);
-      solver.suggestValue(vars[i], 10000);
+      solver.suggestValue(vars[i], 10000000);
     }
 
     suggestVarValues(splits);
   };
 
-  const suggestVarValues = (splits: SplitInfo[]) => {
+  const suggestVarValues = (newSplits: SplitInfo[]) => {
     const vars = varsRef.current!;
     const solver = solverRef.current!;
     for (let i = 0; i < vars.length - 1; i++) {
       const x = vars[i];
       const y = vars[i + 1];
 
-      if (splits[i].value) {
+      if (newSplits[i].value) {
         if (i < vars.length - 2) {
-          solver.suggestValue(y, x.value() + splits[i].value!);
+          solver.suggestValue(y, x.value() + newSplits[i].value!);
         } else {
-          solver.suggestValue(x, y.value() - splits[i].value!);
+          solver.suggestValue(x, y.value() - newSplits[i].value!);
         }
         solver.updateVariables();
       }
@@ -306,7 +309,7 @@ export default function Split(props: Props) {
       if (i < count - 1) {
         newChildren.push(
           <Resizer
-            key={`Resizer-${i}`}
+            key={generateUuid()}
             orientation={orientation}
             onMouseDown={(ev) => onResizerMouseDown(i)}
           />
